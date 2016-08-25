@@ -11,6 +11,7 @@ import (
     "io"
     "io/ioutil"
     "encoding/json"
+    "bufio"
 )
 
 type JiraInstance struct {
@@ -98,7 +99,7 @@ func upload(c *jira.Client, i *jira.Issue, filename string) error {
     bar.SetMaxWidth(80)
     bar.Start()
 
-    reader := bar.NewProxyReader(fh)
+    reader := bar.NewProxyReader(bufio.NewReader(fh))
 
     _, _, err =c.Issue.PostAttachment(i.ID, reader, filename)
 
